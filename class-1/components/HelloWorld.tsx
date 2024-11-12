@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 const HelloWorld = () => {
   const [todo, setTodo] = useState("");
@@ -48,11 +48,9 @@ const HelloWorld = () => {
           </TouchableOpacity>
         </View>
         <View style={{display: "flex", gap: 10, alignItems: "center"}}>
-          {allTodos.length > 0 ? (
-            allTodos.map((todo, index) => (
-              <Text key={todo + index} style={{fontSize: 18}}>{todo}</Text>
-            ))
-          ) : (
+          {allTodos.length > 0 ? <FlatList data={allTodos} renderItem={({item}) => (
+            <Text style={{fontSize: 20, marginBottom: 10}}>{item}</Text>
+          )} keyExtractor={(item, index) => item + index}/> : (
             <View
               style={{
                 display: "flex",

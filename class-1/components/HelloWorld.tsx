@@ -1,28 +1,72 @@
 import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 const HelloWorld = () => {
-  const [counter, setCounter] = useState(0);
-  const addCounter = () => {
-    setCounter(counter + 1);
-  };
+  const [todo, setTodo] = useState("");
+  const [allTodos, setAllTodos] = useState<string[]>([]);
 
-  const minusCouter = () => {
-    if (counter > 0) {
-      setCounter(counter - 1);
-    }
+  const addTodo = () => {
+    setAllTodos([...allTodos, todo]);
+    setTodo("")
   };
 
   return (
-    <View style={{ padding: 20, display: "flex", gap: 20, justifyContent: "center", alignItems: "center"}}>
-      <Text style={{ fontSize: 70, marginTop: 20 }}>{counter}</Text>
-      <TouchableOpacity onPress={addCounter} style={{backgroundColor: "black", borderRadius: 10, padding: 10}}>
-        <Text style={{ fontSize: 40, color: "white" }}>Add</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={minusCouter} style={{backgroundColor: "black", borderRadius: 10, padding: 10}}>
-        <Text style={{ fontSize: 40, color: "white" }}>Minus</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <View>
+        <View
+          style={{
+            padding: 40,
+            display: "flex",
+            gap: 15,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 30 }}>Todo App</Text>
+          <TextInput
+            value={todo}
+            onChangeText={setTodo}
+            style={{
+              borderColor: "black",
+              borderWidth: 1,
+              borderRadius: 5,
+              padding: 7,
+              width: 300,
+            }}
+            placeholder="Enter a Todo"
+          />
+          <TouchableOpacity
+            style={{
+              backgroundColor: "black",
+              padding: 15,
+              borderRadius: 5,
+              paddingHorizontal: 40,
+            }}
+            onPress={addTodo}
+          >
+            <Text style={{ color: "white" }}>Add</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{display: "flex", gap: 10, alignItems: "center"}}>
+          {allTodos.length > 0 ? (
+            allTodos.map((todo, index) => (
+              <Text key={todo + index} style={{fontSize: 18}}>{todo}</Text>
+            ))
+          ) : (
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 300,
+              }}
+            >
+              <Text style={{ fontSize: 25 }}>No Todo Found</Text>
+            </View>
+          )}
+        </View>
+      </View>
+    </>
   );
 };
 
